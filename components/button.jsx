@@ -32,8 +32,8 @@ const getData = async () => {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    width: 320,
-    height: 68,
+    width: 160,
+    height: 34,
     marginHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
