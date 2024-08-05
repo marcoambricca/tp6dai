@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useState } from 'react';
 
 export default function Checkbox() {
     const [checked, setChecked] = useState(false);
@@ -8,9 +9,8 @@ export default function Checkbox() {
             <Pressable
                 style={[styles.checkboxBase, checked && styles.checkboxChecked]}
                 onPress={() => setChecked(!checked)}>
-                {checked && <Ionicons name="checkmark" size={24} color="white" />}
+                {checked && <Ionicons name="checkmark" size={24} color="white"/>}
             </Pressable>
-            <Text style={styles.checkboxLabel}>{`⬅️ Click!`}</Text>
         </View>
     );
 }
@@ -23,11 +23,12 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       borderRadius: 4,
       borderWidth: 2,
-      borderColor: 'coral',
-      backgroundColor: 'black',
+      backgroundColor: '#f1f1f1',
+      borderColor: 'f2f2f2'
     },
     checkboxChecked: {
-      backgroundColor: 'coral',
+      backgroundColor: 'green',
+      borderColor: 'green'
     },
     checkboxContainer: {
       flexDirection: 'row',

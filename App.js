@@ -1,14 +1,25 @@
 import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Button from './components/button.jsx';
-import Checkbox from './components/checkbox.jsx';
+import ModalComponent from './components/modal.jsx';
 
 export default function App() {
+  const [modalOpen, setModalOpen] = useState(false);
+  
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   return (
     <View style={styles.appContainer}>
-        <Text style={styles.appTitle}>Titulo</Text>
-        <Button label="Tocame" />
-        <Checkbox />
+        <Text style={styles.appTitle}>To-Do List</Text>
+        <Button label="Agregar tarea" onPress={openModal}/>
+        <ModalComponent isVisible={modalOpen} onClose={closeModal} />
     </View>
   );
 }
