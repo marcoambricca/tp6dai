@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: 'white',
+        width: '100%',
         padding: 15,
         marginVertical: 10,
         borderRadius: 10,
@@ -55,6 +56,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#ddd',
         backgroundColor: '#f1f1f1',
+        flex: 'flex-end'
     },
     checkboxChecked: {
         backgroundColor: 'green',

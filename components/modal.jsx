@@ -50,9 +50,6 @@ export default function ModalComponent({ isVisible, onClose, addTask }){
         <Pressable style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Agregar tarea</Text>
         </Pressable>
-        <Pressable style={styles.button} onPress={onClose}>
-          <Text style={styles.buttonText}>Cerrar</Text>
-        </Pressable>
       </View>
     </Modal>
   );
@@ -65,7 +62,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     height: 300,
-    backgroundColor: 'white',
+    backgroundColor: '#CCD6EB',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 20,
@@ -73,16 +70,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    width: '100%',
-    padding: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
     marginVertical: 10,
-    borderWidth: 1,
-    borderColor: '#ddd',
+    backgroundColor: '#fff',
     borderRadius: 5,
   },
   button: {
     padding: 10,
-    backgroundColor: '#007BFF',
+    backgroundColor: '#AE76A6',
+    paddingHorizontal: 40,
     borderRadius: 5,
     marginTop: 10,
   },
