@@ -3,81 +3,55 @@ import { View, Text, StyleSheet, Pressable, TextInput, SafeAreaView } from 'reac
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Modal from 'react-native-modal';
 
-const ModalComponent = ({ isVisible, onClose }) => {
-  const storeData = async (name, value) => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem(name, jsonValue);
-    } 
-    catch (e) {
-      console.log(e);
-    }
-  };
-
-  const getData = async (name) => {
-    try {
-      const jsonValue = await AsyncStorage.getItem(name);
-      return jsonValue != null ? JSON.parse(jsonValue) : null;
-    } 
-    catch (e) {
-      console.log(e);
-    }
-  };
-
+export default function ModalComponent({ isVisible, onClose, addTask }){
   const [formData, setFormData] = useState({ name: '', desc: '' });
 
-  const handleNameChange = (text) => {
+  const handleChange = (name, value) => {
     setFormData({
       ...formData,
-      name: text
+      [name]: value,
     });
   };
 
-  const handleDescChange = (text) => {
-    setFormData({
-      ...formData,
-      desc: text
-    });
+  const handleSubmit = async () => {
+    const newTask = { ...formData, id: new Date().toISOString() };
+    await storeData(newTask);
+    addTask(newTask);
+    onClose();
+  };
+
+  const storeData = async (task) => {
+    try {
+      await AsyncStorage.setItem(task.id, JSON.stringify(task));
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
-    <Modal
-      isVisible={isVisible}
-      onBackdropPress={onClose}
-      style={styles.modal}
-      swipeDirection="down"
-      onSwipeComplete={onClose}
-    >
+    <Modal isVisible={isVisible} onBackdropPress={onClose} style={styles.modal} swipeDirection="down" onSwipeComplete={onClose}>
       <View style={styles.modalContent}>
         <SafeAreaView>
           <TextInput
             style={styles.input}
-            onChangeText={handleNameChange}
+            onChangeText={(value) => handleChange('name', value)}
             value={formData.name}
             placeholder="Nombre"
             keyboardType="default"
           />
           <TextInput
             style={styles.input}
-            onChangeText={handleDescChange}
+            onChangeText={(value) => handleChange('desc', value)}
             value={formData.desc}
             placeholder="Descripcion"
             keyboardType="default"
           />
         </SafeAreaView>
-        <Pressable
-          style={styles.button}
-          onPress={() => {
-            storeData('task', formData);
-            console.log(formData);
-            onClose();
-            setFormData({
-                name: '',
-                desc: ''
-            });
-          }}
-        >
+        <Pressable style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Agregar tarea</Text>
+        </Pressable>
+        <Pressable style={styles.button} onPress={onClose}>
+          <Text style={styles.buttonText}>Cerrar</Text>
         </Pressable>
       </View>
     </Modal>
@@ -99,19 +73,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    borderColor: 'gray',
-    borderWidth: 0.5,
-    marginBottom: 12,
-    paddingVertical: 10,
-    paddingHorizontal: 18,
-    borderRadius: 4,
     width: '100%',
+    padding: 10,
+    marginVertical: 10,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 5,
   },
   button: {
-    paddingVertical: 10,
-    paddingHorizontal: 30,
-    backgroundColor: '#ADB2D3',
-    borderRadius: 3,
+    padding: 10,
+    backgroundColor: '#007BFF',
+    borderRadius: 5,
     marginTop: 10,
   },
   buttonText: {
@@ -119,5 +91,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
-export default ModalComponent;
