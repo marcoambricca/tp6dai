@@ -31,7 +31,7 @@ export default function App() {
       <List tasks={tasks} setTasks={setTasks} />
       <Button label="Agregar tarea" onPress={openModal} marginB={20}/>
       <Button label="Borrar tareas" onPress={handleDelete} marginB={20}/>
-      <ModalComponent isVisible={modalOpen} onClose={closeModal} addTask={addTask} />
+      <ModalComponent isVisible={modalOpen} onClose={closeModal} addTask={addTask} setTasks={setTasks} tasks={tasks} />
     </View>
   );
 }

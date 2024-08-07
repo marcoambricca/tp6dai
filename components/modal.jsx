@@ -3,8 +3,8 @@ import { View, Text, StyleSheet, Pressable, TextInput, SafeAreaView } from 'reac
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Modal from 'react-native-modal';
 
-export default function ModalComponent({ isVisible, onClose, addTask }){
-  const [formData, setFormData] = useState({id: null, name: '', desc: '', completed: false });
+export default function ModalComponent({ isVisible, onClose, addTask, tasks, setTasks }){
+  const [formData, setFormData] = useState({name: '', desc: ''});
 
   const handleChange = (name, value) => {
     setFormData({
@@ -13,9 +13,8 @@ export default function ModalComponent({ isVisible, onClose, addTask }){
     });
   };
 
-  const handleSubmit = async () => {
-    const newTask = { ...formData, dateCreated: new Date().toISOString() };
-    addTask(newTask);
+  const handleSubmit = () => {;
+    addTask(formData, tasks, setTasks);
     onClose();
   };
 

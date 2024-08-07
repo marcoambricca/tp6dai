@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { checkTask } from '../modules/data-service.js';
+import { checkTask, deleteTask } from '../modules/data-service.js';
 
 export default function Card({ task, tasks, setTasks }) {
     const checked = task.completed;
+
+    const handleDelete = () => {
+        deleteTask(task, tasks, setTasks);
+    };
 
     return (
         <View style={[styles.card, checked && styles.cardChecked]}>
@@ -16,12 +20,17 @@ export default function Card({ task, tasks, setTasks }) {
                     {task.desc}
                 </Text>
             </View>
-            <Pressable
-                style={[styles.checkboxBase, checked && styles.checkboxChecked]}
-                onPress={() => checkTask(task.id, tasks, setTasks)}
-            >
-                {checked && <Ionicons name="checkmark" size={24} color="white" />}
-            </Pressable>
+            <View style={styles.actionButtons}>
+                <Pressable
+                    style={[styles.checkboxBase, checked && styles.checkboxChecked]}
+                    onPress={() => checkTask(task, tasks, setTasks)}
+                >
+                    {checked && <Ionicons name="checkmark" size={24} color="white" />}
+                </Pressable>
+                <Pressable style={styles.deleteButton} onPress={handleDelete}>
+                    <Ionicons name="trash" size={24} color="red" />
+                </Pressable>
+            </View>
         </View>
     );
 }
@@ -30,6 +39,7 @@ const styles = StyleSheet.create({
     card: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
         backgroundColor: 'white',
         width: '100%',
         padding: 15,
@@ -46,11 +56,12 @@ const styles = StyleSheet.create({
         opacity: 0.5,
     },
     taskInfo: {
-        flexDirection: 'column'
+        flex: 1,
+        flexDirection: 'column',
     },
     taskTitle: {
         fontSize: 16,
-        fontWeight: 600,
+        fontWeight: '600',
         color: '#333',
     },
     taskDesc: {
@@ -61,6 +72,10 @@ const styles = StyleSheet.create({
         textDecorationLine: 'line-through',
         color: '#999',
     },
+    actionButtons: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
     checkboxBase: {
         width: 24,
         height: 24,
@@ -70,10 +85,13 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#ddd',
         backgroundColor: '#f1f1f1',
-        flex: 'flex-end'
+        marginRight: 10,
     },
     checkboxChecked: {
         backgroundColor: 'green',
         borderColor: 'green',
+    },
+    deleteButton: {
+        marginLeft: 10,
     },
 });

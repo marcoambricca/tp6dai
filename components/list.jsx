@@ -15,5 +15,5 @@ const styles = StyleSheet.create({
     tasksContainer: {
         flex: 1,
         padding: 10,
-    },
+    }
 });
