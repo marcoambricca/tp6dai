@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Modal from 'react-native-modal';
 
 export default function ModalComponent({ isVisible, onClose, addTask }){
-  const [formData, setFormData] = useState({ name: '', desc: '' });
+  const [formData, setFormData] = useState({id: null, name: '', desc: '', completed: false });
 
   const handleChange = (name, value) => {
     setFormData({
@@ -14,18 +14,9 @@ export default function ModalComponent({ isVisible, onClose, addTask }){
   };
 
   const handleSubmit = async () => {
-    const newTask = { ...formData, id: new Date().toISOString() };
-    await storeData(newTask);
+    const newTask = { ...formData, dateCreated: new Date().toISOString() };
     addTask(newTask);
     onClose();
-  };
-
-  const storeData = async (task) => {
-    try {
-      await AsyncStorage.setItem(task.id, JSON.stringify(task));
-    } catch (e) {
-      console.log(e);
-    }
   };
 
   return (

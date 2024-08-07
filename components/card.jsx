@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { checkTask } from '../modules/data-service.js';
 
-export default function Card({ task }) {
-    const [checked, setChecked] = useState(false);
+export default function Card({ task, tasks, setTasks }) {
+    const checked = task.completed;
 
     return (
         <View style={[styles.card, checked && styles.cardChecked]}>
-            <Text style={[styles.taskText, checked && styles.taskTextChecked]}>
-                {task.name} - {task.desc}
-            </Text>
+            <View style={styles.taskInfo}>
+                <Text style={[styles.taskTitle, checked && styles.taskTextChecked]}>
+                    {task.name}
+                </Text>
+                <Text style={[styles.taskDesc, checked && styles.taskTextChecked]}>
+                    {task.desc}
+                </Text>
+            </View>
             <Pressable
                 style={[styles.checkboxBase, checked && styles.checkboxChecked]}
-                onPress={() => setChecked(!checked)}
+                onPress={() => checkTask(task.id, tasks, setTasks)}
             >
                 {checked && <Ionicons name="checkmark" size={24} color="white" />}
             </Pressable>
@@ -24,11 +30,11 @@ const styles = StyleSheet.create({
     card: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
         backgroundColor: 'white',
         width: '100%',
         padding: 15,
         marginVertical: 10,
+        minWidth: 200,
         borderRadius: 10,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
@@ -39,8 +45,16 @@ const styles = StyleSheet.create({
     cardChecked: {
         opacity: 0.5,
     },
-    taskText: {
+    taskInfo: {
+        flexDirection: 'column'
+    },
+    taskTitle: {
         fontSize: 16,
+        fontWeight: 600,
+        color: '#333',
+    },
+    taskDesc: {
+        fontSize: 12,
         color: '#333',
     },
     taskTextChecked: {
