@@ -15,6 +15,7 @@ export default function ModalComponent({ isVisible, onClose, addTask, tasks, set
 
   const handleSubmit = () => {;
     addTask(formData, tasks, setTasks);
+    setFormData({name: '', desc: ''});
     onClose();
   };
 
